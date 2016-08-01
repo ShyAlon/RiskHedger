@@ -1,0 +1,33 @@
+application: riskhedger
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+# [START handlers]
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /systemjs.config.js
+  static_files: web/systemjs.config.js
+  upload: web/systemjs.config.js
+
+- url: /node_modules
+  static_dir: web/node_modules
+
+- url: /app
+  static_dir: web/app
+
+- url: /.*
+  script: guestbook.app
+# [END handlers]
+
+# [START libraries]
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
+# [END libraries]
