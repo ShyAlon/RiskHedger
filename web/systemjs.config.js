@@ -5,10 +5,11 @@
 (function(global) {
   // map tells the System loader where to look for things
   var map = {
-    'moment': 'node_modules/moment/moment.js',
+    'moment': 'node_modules/moment/moment.js', 
     'app':                        'app', // 'dist',
     '@angular':                   'node_modules/@angular',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
+    'angular2-highcharts':        'node_modules/angular2-highcharts/index.js',
     'rxjs':                       'node_modules/rxjs'
   };
   // packages tells the System loader how to load when no filename and/or no extension

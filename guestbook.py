@@ -66,6 +66,9 @@ class Guestbook(webapp2.RequestHandler):
 # [START app]
 app = webapp2.WSGIApplication([
     ('/', MainPage),
+    ('/new', MainPage),
+    ('/profile', MainPage),
+    ('/last', MainPage),
     ('/sign', Guestbook),
 ], debug=True)
 # [END app]
