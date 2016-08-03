@@ -27,6 +27,8 @@ export class NewComponent {
   private formats: Array<string> = ['DD-MM-YYYY', 'YYYY/MM/DD', 'DD.MM.YYYY', 'shortDate'];
   private format = this.formats[0];
 
+  private deals: Array<any> = []
+
   private cancelConfirmationModal: Modal;
 
   private dateOptions: any = {
@@ -67,7 +69,31 @@ export class NewComponent {
     console.log(modal);
   }
 
-  modalClosed(modal: Modal){
+  modalClosed(modal: Modal) {
     console.log(modal);
+  }
+
+  addDeal() {
+    this.deals.push({
+      'type': this.type,
+      'action': this.action,
+      'target': this.target,
+      'risk': this.risk,
+      'quantity': this.quantity,
+      'date': this.dt
+    });
+  }
+
+  deleteDeal(index: number){
+    this.deals.splice(index, 1);
+    return false;
+  }
+
+  canProceed(){
+    return this.type
+      && this.action
+      && this.target
+      && this.risk
+      && this.quantity
   }
 }

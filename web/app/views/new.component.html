@@ -2,6 +2,8 @@
     <div class="col-md-12">
         <h1>New Hedge</h1>
     </div>
+</div>
+<div class="row" style="margin-top:30px">
     <div class="col-md-12">
         <form class="form-inline" role="form">
             <div class="form-group">
@@ -21,13 +23,8 @@
                     <span class="input-group-addon">% Risk Permitted</span>
                     <input type="number" class="form-control" aria-label="RISK" [(ngModel)]="risk" placeholder="" max="99" min="0" maxlength="2"
                         name="risk">
-                    <!--span class="input-group-addon">.00</span-->
                 </div>
             </div>
-            <!--div class="checkbox">
-            <label><input type="checkbox"> Remember me</label>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button-->
         </form>
         <form class="form-inline" role="form">
             <div class="form-group">
@@ -60,17 +57,43 @@
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        At {{ dt | date }} {{action}} {{quantity}} {{target}} at {{risk}}% risk
+    </div>
+</div>
+<div class="row" style="margin-top:30px">
+    <div class="col-md-12">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <button class="btn btn-primary" (click)="addDeal()" [disabled]="!canProceed()" >More Deal</button>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" [disabled]="!canProceed()" >Hedge/Calculate</button>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Enter My Own Strategy</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row" style="margin-top:30px">
+    <div class="col-md-12">
+        <h2 [hidden]="deals.length == 0">Deals</h2>
+        <ol>
+            <li *ngFor="let deal of deals; let i = index">
+               At {{ deal.date | date }} {{deal.action}} {{deal.quantity}} {{deal.target}} at {{deal.risk}}% risk <a href='' (click)="deleteDeal(i)">(delete)</a>
+            </li>
+        </ol>
+    </div>
+</div>
 
 <!-- Large modal -->
 
- 
-<modal id="showDate"
-       [title]="'Choose Date'"
-       [cancel-label]="'cancel'"
-       [positive-label]="'OK'"
-       (loaded)="modalLoaded($event)"
-       (closed)="modalClosed($event)">
-  <datepicker [(ngModel)]="dt" name="on"></datepicker>
+
+<modal id="showDate" [title]="'Choose Date'" [cancel-label]="'cancel'" [positive-label]="'OK'" (loaded)="modalLoaded($event)"
+    (closed)="modalClosed($event)">
+    <datepicker [(ngModel)]="dt" name="on"></datepicker>
 </modal>
 
 <!--div class="form-group">
