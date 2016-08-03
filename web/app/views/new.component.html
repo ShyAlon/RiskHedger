@@ -1,5 +1,82 @@
 <div class="row" style="margin-top:50px">
-    <h1>New Hedge</h1>
-    <alert type="info">ng2-bootstrap hello world!</alert>
-    <chart [options]='options' style="width:100%; margin: 120px"></chart>
+    <div class="col-md-12">
+        <h1>New Hedge</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <div class="btn-group">
+                    <label class="btn btn-primary" [(ngModel)]="type" btnRadio="Currency" name="Currency" (click)="typeClicked()">Currency</label>
+                    <label class="btn btn-primary" [(ngModel)]="type" btnRadio="Commodity" name="Commodity" (click)="typeClicked()">Commodity</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="btn-group">
+                    <label class="btn btn-primary" [(ngModel)]="action" btnRadio="Buy" name="Buy">Buy</label>
+                    <label class="btn btn-primary" [(ngModel)]="action" btnRadio="Sell" name="Sell">Sell</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">% Risk Permitted</span>
+                    <input type="number" class="form-control" aria-label="RISK" [(ngModel)]="risk" placeholder="" max="99" min="0" maxlength="2"
+                        name="risk">
+                    <!--span class="input-group-addon">.00</span-->
+                </div>
+            </div>
+            <!--div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button-->
+        </form>
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <div dropdown>
+                    <!-- click on dropdown-toggle toggles dropdown state, optional -->
+                    <button id="single-button" type="button" class="btn btn-primary" dropdownToggle [disabled]="disabled">
+                {{target || 'Select'}} <span class="caret"></span></button>
+                    <!-- dropdown-menu holds content which will be shown -->
+                    <div dropdownMenu>
+                        <li *ngFor="let choice of items()">
+                            <a class="dropdown-item" href="#" (click)="whatClicked(choice)">{{choice}}</a>
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Quantity</span>
+                    <input type="number" class="form-control" [(ngModel)]="quantity" aria-label="Amount (to the nearest dollar)" name="quantity"
+                        placeholder="" max="9999999" min="0" maxlength="8">
+                    <!--span class="input-group-addon">.00</span-->
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">On</span>
+                    <button class="btn btn-primary" (click)="cancelConfirmationModal.show()">{{dt | date}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+<!-- Large modal -->
+
+ 
+<modal id="showDate"
+       [title]="'Choose Date'"
+       [cancel-label]="'cancel'"
+       [positive-label]="'OK'"
+       (loaded)="modalLoaded($event)"
+       (closed)="modalClosed($event)">
+  <datepicker [(ngModel)]="dt" name="on"></datepicker>
+</modal>
+
+<!--div class="form-group">
+    <ul class="dropdown-menu" dropdownMenu aria-labelledby="simple-dropdown">
+        <li *ngFor="let choice of items">
+            <a class="dropdown-item" href="#">{{choice}}</a>
+        </li>
+    </ul>
+</div-->

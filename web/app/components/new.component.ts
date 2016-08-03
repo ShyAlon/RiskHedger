@@ -1,94 +1,73 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {NgModel} from '@angular/forms';
-import { CHART_DIRECTIVES } from 'angular2-highcharts';
-import { Highcharts } from 'angular2-highcharts';
-import {AlertComponent, DATEPICKER_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+import {CORE_DIRECTIVES} from '@angular/common';
+import {FORM_DIRECTIVES} from '@angular/forms';
+import {BUTTON_DIRECTIVES, AlertComponent, DATEPICKER_DIRECTIVES, DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+import {Modal} from './common/modal';
+
 
 @Component({
-  selector: 'simple-chart-example',
-  directives: [AlertComponent, CHART_DIRECTIVES, NgModel],
+  selector: 'new-hedge',
+  directives: [AlertComponent, BUTTON_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, FORM_DIRECTIVES, DATEPICKER_DIRECTIVES, NgModel, Modal],
   templateUrl: './app/views/new.component.html',
 })
 export class NewComponent {
   public options = {};
+  public type: string = 'Currency';
+  public action: string = 'Buy';
+  public target: string = '';
+  public risk: string = '';
+  public quantity: string = '';
 
-  normalized(): number {
-    var res = 0;
-    for(var i = 0; i < 16; i++){
-      res = res + Math.random() - 0.50001;
-    }
-    return res / 32;
-  }
+  public dt: Date = new Date();
+  private minDate: Date = null;
+  private events: Array<any>;
+  private tomorrow: Date;
+  private afterTomorrow: Date;
+  private formats: Array<string> = ['DD-MM-YYYY', 'YYYY/MM/DD', 'DD.MM.YYYY', 'shortDate'];
+  private format = this.formats[0];
 
-  createVlues(): Array<string | number> {
-    var values = [];
-    var lastValue = 0.7 + Math.random()
-    var time = new Date().getTime();
-    for (var i = 0; i < 4096; i++) {
-      lastValue = lastValue + this.normalized();
-      values.push([new Date(time + i * 360000), lastValue]);
-    }
-    return values;
+  private cancelConfirmationModal: Modal;
+
+  private dateOptions: any = {
+    formatYear: 'YY',
+    startingDay: 1
+  };
+  private opened: boolean = false;
+
+  public getDate(): number {
+    return this.dt && this.dt.getTime() || new Date().getTime();
   }
 
   constructor() {
 
-
-    this.options = {
-      chart: {
-        zoomType: 'x'
-      },
-      title: {
-        text: 'USD to EUR exchange rate over time'
-      },
-      subtitle: {
-        text: document.ontouchstart === undefined ?
-          'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-      },
-      xAxis: {
-        type: 'datetime'
-      },
-      yAxis: {
-        title: {
-          text: 'Exchange rate'
-        }
-      },
-      legend: {
-        enabled: false
-      },
-      plotOptions: {
-        area: {
-          fillColor: {
-            linearGradient: {
-              x1: 0,
-              y1: 0,
-              x2: 0,
-              y2: 1
-            },
-            stops: [
-              [0, Highcharts.getOptions().colors[0]],
-              [1, Highcharts.getOptions().colors[1]]
-            ]
-          },
-          marker: {
-            radius: 2
-          },
-          lineWidth: 1,
-          states: {
-            hover: {
-              lineWidth: 1
-            }
-          },
-          threshold: null
-        }
-      },
-
-      series: [{
-        type: 'area',
-        name: 'USD to EUR',
-        data: this.createVlues()
-      }]
-    };
-
   };
+
+  whatClicked(choice): boolean {
+    this.target = choice;
+    return false;
+  }
+
+  items(): Array<string> {
+    if (this.type == "Currency") {
+      return ['USD', 'EUR', 'NIS'];
+    }
+    else {
+      return ['COP', 'IRN', 'GLD', 'OIL'];
+    }
+  }
+
+  typeClicked() {
+    this.target = '';
+  }
+
+  // inside your component:
+  modalLoaded(modal: Modal) {
+    this.cancelConfirmationModal = modal; // Here you get a reference to the modal so you can control it programmatically
+    console.log(modal);
+  }
+
+  modalClosed(modal: Modal){
+    console.log(modal);
+  }
 }
